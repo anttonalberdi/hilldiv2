@@ -42,8 +42,7 @@ The phylogenetic tree needs to be in "phylo" format.
 
 #### Trait table
 
-The tait table needs to be in a tabular format, with OTUs/ASVs/MAGs in rows, and traits in columns.
-
+The trait table needs to be in a tabular format, with OTUs/ASVs/MAGs in rows, and traits in columns. The traits can be continuous, binary or proportional, but the appropriate metric for generating the distance matrix will need to be chosen.
 
 |      | Trait1 | Trait2 | Trait3 | Trait4 |
 | ---  |---|---|---|---|
@@ -54,7 +53,7 @@ The tait table needs to be in a tabular format, with OTUs/ASVs/MAGs in rows, and
 
 ### Load data and prepare functional data
 
-```{r}
+```
 #Load data
 counts <- lizards_counts
 tree <- lizards_tree
