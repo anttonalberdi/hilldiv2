@@ -158,12 +158,13 @@ hill_pair_dis_nmds <- hill_pair_dis_nmds %>%
 
 #Plot ordination
 ggplot(hill_pair_dis_nmds, aes(x=NMDS1,y=NMDS2, color=population)) +
-        geom_point(size=2) +
+        geom_point(size=3) +
         scale_color_manual(values = c("#E3D97B","#46edc8","#374d7c")) +
         theme_classic() +
         theme(legend.position="bottom", legend.box="vertical")
-```
 
+```
+ ![NMDS image](/images/nmds.png)
 
 ## References
 
