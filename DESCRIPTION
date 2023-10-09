@@ -1,0 +1,41 @@
+Package: hilldiv2
+Title: Integral Analysis of Diversity Based on Hill Numbers
+Version: 2.0.1
+Author: Antton Alberdi [aut, cre]
+Maintainer: Antton Alberdi <antton.alberdi@bio.ku.dk>
+Description: Tools for analysing OTU/ASV/MAG diversity based on Hill numbers.
+  'hilldiv2' is an R package that provides a set of functions to assist analysis of diversity for
+  diet reconstruction, microbial community profiling or more general ecosystem characterisation
+  analyses based on Hill numbers, using OTU/ASV/MAG tables and associated phylogenetic trees and/or trait tables as
+  inputs. The package includes functions for neutral, phylogenetic and functional diversity measurement, diversity
+  partitioning and dissimilarity measurement. All of these based on Hill numbers.
+  The statistical framework developed around Hill numbers encompasses many of the most
+  broadly employed diversity (e.g. richness, Shannon index, Simpson index),
+  phylogenetic diversity (e.g. Faith's PD, Allen's H, Rao's quadratic entropy) and
+  dissimilarity (e.g. Sorensen index, Unifrac distances) metrics. This enables the most
+  common analyses of diversity to be performed while grounded in a single statistical
+  framework. The methods are described in Jost et al. (2007) <DOI:10.1890/06-1736.1>,
+  Chao et al. (2010) <DOI:10.1098/rstb.2010.0272> and Chiu et al. (2014)
+  <DOI:10.1890/12-0960.1>; and reviewed in the framework of molecularly characterised
+  biological systems in Alberdi & Gilbert (2019) <DOI:10.1111/1755-0998.13014>.
+License: GPL-3
+LazyData: true
+URL: https://github.com/anttonalberdi/hilldiv
+BugReports: https://github.com/anttonalberdi/hilldiv/issues
+Depends:
+    R (>= 4.1.2)
+Suggests:
+Imports:
+    ape,
+    cluster,
+    stats,
+    tidyverse
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+Collate:
+    'hilldiss.R'
+    'hilldiv.R'
+    'hillpart.R'
+    'hillpair.R'
+    'tss.R'
+    'traits2dist.R'
