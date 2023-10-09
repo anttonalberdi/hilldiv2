@@ -162,16 +162,16 @@ ggplot(hill_pair_dis_nmds, aes(x=NMDS1,y=NMDS2, color=population)) +
         theme_classic() +
         theme(legend.position="bottom", legend.box="vertical")
 ```
-The above code will result in the below NMDS ordination:
+The above code will result in the below NMDS ordination. Samples from population 1 differ considerably from samples in the other two populations, although some degree of separation is still observed between populations 2 and 3.
  ![NMDS ordination of neutral diversities of q=1](/images/nmds.png)
 
-The results look slightly different when phylogenetic Hill numbers are used. Populations 2 and 3 are not separated as well as in the previous analysis.
+The results look slightly different when phylogenetic Hill numbers are used. Populations 2 and 3 are not separated as well as in the previous analysis, probably because the differences between both populations were driven by phylogenetically related taxa.
 ```r
 hill_pair_dis <- hillpair(data=counts[,-c(12,16,19)],q=1,tree=tree)
 ```
  ![NMDS ordination of phylogenetic diversities of q=1](/images/nmds2.png)
 
- The results look very different when neutral Hill numbers of q=0 (richness) are used instead. When relative abundances are not taken into account, the population structure is lost.
+ The results look very different when neutral Hill numbers of q=0 (richness) are used instead. When relative abundances are not taken into account, the population structure is lost. This example highlights the importance of using multiple combinations of Hill numbers to understand the diversity structure of samples and populations.
  ```r
 hill_pair_dis <- hillpair(data=counts[,-c(12,16,19)],q=0)
  ```
