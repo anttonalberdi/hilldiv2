@@ -27,7 +27,7 @@ The following examples use the lizard-associated metagenome-assembled genome (MA
 
 #### Counts table
 
-The counts table needs to be in a tabular format, with OTUs/ASVs/MAGs in rows, and samples in columns.
+The counts table needs to be in a tabular format, with OTUs/ASVs/MAGs in rows, and samples in columns. Note that hilldiv2 only does total sum squares (TSS) normalisation to ensure the data become proportional. In some contexts, the data might require some further filtering or normalisation for reliable estimation of diversity.
 
 |      | Sample1 | Sample2 | Sample3 | Sample4 |
 | ---  |---|---|---|---|
@@ -38,7 +38,7 @@ The counts table needs to be in a tabular format, with OTUs/ASVs/MAGs in rows, a
 
 
 #### Phylogenetic tree
-The phylogenetic tree needs to be in "phylo" format.
+The phylogenetic tree needs to be in "phylo" format. This requires a newick- or nexus-format tree to be loaded to R using the library **ape**.
 
 #### Trait table
 
@@ -161,10 +161,22 @@ ggplot(hill_pair_dis_nmds, aes(x=NMDS1,y=NMDS2, color=population)) +
         scale_color_manual(values = c("#E3D97B","#46edc8","#374d7c")) +
         theme_classic() +
         theme(legend.position="bottom", legend.box="vertical")
-
 ```
 The above code will result in the below NMDS ordination:
- ![NMDS image](/images/nmds.png)
+ ![NMDS ordination of neutral diversities of q=1](/images/nmds.png)
+
+The results look slightly different when phylogenetic Hill numbers are used. Populations 2 and 3 are not separated as well as in the previous analysis.
+```r
+hill_pair_dis <- hillpair(data=counts[,-c(12,16,19)],q=1,tree=tree)
+```
+ ![NMDS ordination of phylogenetic diversities of q=1](/images/nmds2.png)
+
+ The results look very different when neutral Hill numbers of q=0 (richness) are used instead. When relative abundances are not taken into account, the population structure is lost.
+ ```r
+hill_pair_dis <- hillpair(data=counts[,-c(12,16,19)],q=0)
+ ```
+  ![NMDS ordination of phylogenetic diversities of q=1](/images/nmds3.png)
+
 
 ## References
 
