@@ -152,7 +152,6 @@ hill_pair_dis_nmds <- hill_pair_dis %>%
 
 #Add metadata
 metadata <- lizards_metadata
-
 hill_pair_dis_nmds <- hill_pair_dis_nmds %>%
       left_join(metadata, by = join_by(sample == sample))
 
@@ -164,6 +163,7 @@ ggplot(hill_pair_dis_nmds, aes(x=NMDS1,y=NMDS2, color=population)) +
         theme(legend.position="bottom", legend.box="vertical")
 
 ```
+The above code will result in the below NMDS ordination:
  ![NMDS image](/images/nmds.png)
 
 ## References
