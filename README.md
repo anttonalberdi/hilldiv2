@@ -12,7 +12,7 @@ For relevant literature visit the [References](#References)
 
 hilldiv2 can be installed from this Github repository using devtools.
 
-```{r}
+```r
 install.packages("devtools")
 library(devtools)
 install_github("anttonalberdi/hilldiv2")
@@ -67,7 +67,7 @@ dist <- traits2dist(traits, method="gower")
 
 The single function ***hilldiv()*** is used to calculate neutral, phylogenetic and functional Hill numbers, depending on the information that is inputed to the function. If only the count data is inputed, then neutral (aka taxonomic) Hill numbers are computed. If a phylogenetic tree is also inputed, then phylogenetic Hill numbers are computed. If a distance matrix is imputed, then functional Hill numbers are computed. If no q-value is used, Hill numbers of order of diversity q=0, q=1 and q=2 are computed as default.
 
-```{r}
+```r
 hilldiv(data=counts)
 hilldiv(data=counts,tree=tree)
 hilldiv(data=counts,dist=dist)
@@ -75,7 +75,7 @@ hilldiv(data=counts,dist=dist)
 
 If the order(s) of diversity is/are defined, then Hill numbers are computed for the desired q-values.
 
-```{r}
+```r
 hilldiv(data=counts,q=0)
 hilldiv(data=counts,q=c(0,0.5,1),tree=tree)
 hilldiv(data=counts,q=2,dist=dist)
@@ -83,14 +83,14 @@ hilldiv(data=counts,q=2,dist=dist)
 
 For functional Hill numbers, it is possible to define a desired Tau value as well. The default Tau value is the maximum distance between any two OTUs/ASVs/MAGs.
 
-```{r}
+```r
 hilldiv(data=counts,q=2,dist=dist,tau=0.3)
 hilldiv(data=counts,q=2,dist=dist,tau=max(dist))
 ```
 
 ### Hill numbers diversity partitioning
 
-```{r}
+```r
 hillpart(data=counts)
 hillpart(data=counts,tree=tree)
 hillpart(data=counts,dist=dist)
@@ -102,7 +102,7 @@ hillpart(data=counts,q=2,dist=dist)
 
 ### Hill numbers dissimilarity measures
 
-```{r}
+```r
 hilldiss(data=counts)
 hilldiss(data=counts,tree=tree)
 hilldiss(data=counts,dist=dist)
@@ -114,7 +114,7 @@ hilldiss(data=counts,q=2,dist=dist)
 
 ### Hill numbers pairwise dissimilarities
 
-```{r}
+```r
 hillpair(data=counts)
 hillpair(data=counts,tree=tree)
 hillpair(data=counts,dist=dist)
@@ -128,7 +128,7 @@ hillpair(data=counts,q=2,dist=dist)
 
 Pairwise dissimilarity values of any type of diversity (neutral, phylogenetic or functional) and q-value (q=0, q=1, q=2, etc.) can be used to generate dissimilarity-based ordinations. Each type of diversity and q-value provides a different type of information, which is why it is recommendable to plot multiple ordinations to identify the main features contributing to the separation across contrasted groups.
 
-```{r}
+```r
 library(spaa)
 library(vegan)
 library(ggplot2)
