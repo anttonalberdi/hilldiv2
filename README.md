@@ -53,7 +53,7 @@ The trait table needs to be in a tabular format, with OTUs/ASVs/MAGs in rows, an
 
 ### Load data and prepare functional data
 
-```
+```r
 #Load data
 counts <- lizards_counts
 tree <- lizards_tree
