@@ -23,6 +23,35 @@ library(hilldiv)
 
 The following examples use the lizard-associated metagenome-assembled genome (MAG) dataset included in the package.
 
+### Data input
+
+#### Counts table
+
+The counts table needs to be in a tabular format, with OTUs/ASVs/MAGs in rows, and samples in columns.
+
+|      | Sample1 | Sample2 | Sample3 | Sample4 |
+| ---  |---|---|---|---|
+| MAG1 | 342   | 24522 | 0     | 1232  |
+| MAG2 | 0     | 0     | 32424 | 732   |
+| MAG3 | 82242 | 22342 |232    | 52232 |
+| MAG4 |223    | 1214  |12113  | 0     |
+
+
+#### Phylogenetic tree
+The phylogenetic tree needs to be in "phylo" format.
+
+#### Trait table
+
+The tait table needs to be in a tabular format, with OTUs/ASVs/MAGs in rows, and traits in columns.
+
+
+|      | Trait1 | Trait2 | Trait3 | Trait4 |
+| ---  |---|---|---|---|
+| MAG1 | 1   | 0.2 | 0.7  | 1    |
+| MAG2 | 0   | 0   | 0.2  | 0.98 |
+| MAG3 | 0.2 | 0   | 0.13 | 0.80 |
+| MAG4 | 0.9 | 1   | 0.8  | 0.7  |
+
 ### Load data and prepare functional data
 
 ```{r}
@@ -139,11 +168,11 @@ ggplot(hill_pair_dis_nmds, aes(x=NMDS1,y=NMDS2, color=population)) +
 
 ## References
 
-Hill, M. O. (1973). Diversity and evenness: a unifying notation and its consequences. Ecology, 54, 427-432.
-Jost, L. (2006). Entropy and diversity. Oikos, 113, 363-375.
-Jost, L. (2007). Partitioning diversity into independent alpha and beta components. Ecology, 88(10), 2427–2439.
-Chao, A., Chiu, C.-H., & Jost, L. (2010). Phylogenetic diversity measures based on Hill numbers. Philosophical Transactions of the Royal Society of London. Series B, Biological Sciences, 365(1558), 3599–3609.
-Chao, A., Chiu, C.-H., & Hsieh, T. C. (2012). Proposing a resolution to debates on diversity partitioning. Ecology, 93(9), 2037–2051.
-Chao, A. & Jost, L. (2015) Estimating diversity and entropy profiles via discovery rates of new species. Methods in Ecology and Evolution, 6, 873-882.
-Chao et al. 2018. An attribute-diversity approach to functional diversity, functional beta diversity, and related (dis)similarity measures. Ecological Monographs 89(2), e01343.
-Alberdi A., Gilbert M.T.P. (2019). A guide to the application of Hill numbers to DNA-based diversity analyses. Molecular Ecology Resources, 19(4), 804-817.
+- Hill, M. O. (1973). Diversity and evenness: a unifying notation and its consequences. Ecology, 54, 427-432.
+- Jost, L. (2006). Entropy and diversity. Oikos, 113, 363-375.
+- Jost, L. (2007). Partitioning diversity into independent alpha and beta components. Ecology, 88(10), 2427–2439.
+- Chao, A., Chiu, C.-H., & Jost, L. (2010). Phylogenetic diversity measures based on Hill numbers. Philosophical Transactions of the Royal Society of London. Series B, Biological Sciences, 365(1558), 3599–3609.
+- Chao, A., Chiu, C.-H., & Hsieh, T. C. (2012). Proposing a resolution to debates on diversity partitioning. Ecology, 93(9), 2037–2051.
+- Chao, A. & Jost, L. (2015) Estimating diversity and entropy profiles via discovery rates of new species. Methods in Ecology and Evolution, 6, 873-882.
+- Chao et al. 2018. An attribute-diversity approach to functional diversity, functional beta diversity, and related (dis)similarity measures. Ecological Monographs 89(2), e01343.
+- Alberdi A., Gilbert M.T.P. (2019). A guide to the application of Hill numbers to DNA-based diversity analyses. Molecular Ecology Resources, 19(4), 804-817.
