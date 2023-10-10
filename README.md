@@ -8,7 +8,19 @@ Alberdi A, Gilbert MTP. (2019). A guide to the application of Hill numbers to DN
 
 For relevant literature visit the [References](#References)
 
-## Installation
+## Contents
+
+- [Installation](#installation)
+- [How to use it](#usage)
+  - [Data input](#data_input)
+  - [Hill numbers diversity metrics](#diversity)
+  - [Hill numbers diversity partitioning](#partitioning)
+  - [Hill numbers similarity measures](#similarity)
+  - [Hill numbers dissimilarity measures](#dissimilarity)
+  - [Hill numbers pairwise dissimilarities](#pairwise)
+- [References](#References)
+
+## Installation{#installation}
 
 hilldiv2 can be installed from this Github repository using devtools.
 
@@ -19,11 +31,11 @@ install_github("anttonalberdi/hilldiv2")
 library(hilldiv)
 ```
 
-## How to use
+## How to use it{#usage}
 
 The following examples use the lizard-associated metagenome-assembled genome (MAG) dataset included in the package.
 
-### Data input
+### Data input{#data_input}
 
 #### Counts table
 
@@ -74,7 +86,7 @@ traits <- lizards_traits
 dist <- traits2dist(traits, method="gower")
 ```
 
-### Hill numbers diversity metrics
+### Hill numbers diversity metrics{#diversity}
 
 The single function ***hilldiv()*** is used to calculate neutral, phylogenetic and functional Hill numbers, depending on the information that is inputed to the function. If only the count data is inputed, then neutral (aka taxonomic) Hill numbers are computed. If a phylogenetic tree is also inputed, then phylogenetic Hill numbers are computed. If a distance matrix is imputed, then functional Hill numbers are computed. If no q-value is used, Hill numbers of order of diversity q=0, q=1 and q=2 are computed as default.
 
@@ -99,7 +111,7 @@ hilldiv(data=counts,q=2,dist=dist,tau=0.3)
 hilldiv(data=counts,q=2,dist=dist,tau=max(dist))
 ```
 
-### Hill numbers diversity partitioning
+### Hill numbers diversity partitioning{#partitioning}
 
 The function ***hillpart()*** performs partitioning of any type of Hill numbers-based diversity (neutral, phylogenetic and functional) at any order(s) of diversity (q>0) into alpha, gamma and beta components.
 
@@ -113,12 +125,12 @@ hillpart(data=counts,q=c(0,0.5,1),tree=tree)
 hillpart(data=counts,q=2,dist=dist)
 ```
 
-### Hill numbers similarity measures
+### Hill numbers similarity measures{#similarity}
 
-The function ***hillsim()*** computes overall similarity metrics based on the Hill numbers beta diversity (Chiu et al. 2014). By default the function outputs the following four similarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the dissimilarity metrics computed by ***hilldiss()***.
+The function ***hillsim()*** computes overall similarity metrics based on the Hill numbers beta diversity following Chiu et al. (2014). By default the function outputs the following four similarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the dissimilarity metrics computed by ***hilldiss()***.
 
 - **S** ***(Jaccard-type turnover-complement):*** it quantifies the complement of the normalised species turnover rate in a sample relative to the total pool of samples (i.e., gamma diversity).
-- **V** (Sørensen-type turnover-complement):*** it quantifies the complement of the normalised species turnover rate in a sample relative to one sample (i.e., alpha diversity).
+- **V** ***(Sørensen-type turnover-complement):*** it quantifies the complement of the normalised species turnover rate in a sample relative to one sample (i.e., alpha diversity).
 - **U** ***(Jaccard-type overlap):*** it quantifies the proportion of shared species in the total pool of samples. Therefore, this metric quantifies similarity from the perspective of the pool of samples.
 - **C** ***(Sørensen-type overlap):*** it quantifies the effective average proportion of shared OTUs/ASVs/MAGs in samples. Therefore, this metric quantifies similarity from the perspective of a single sample.
 
@@ -132,9 +144,9 @@ hillsim(data=counts,metric=c("C","U"),q=c(0,0.5,1),tree=tree)
 hillsim(data=counts,q=2,dist=dist)
 ```
 
-### Hill numbers dissimilarity measures
+### Hill numbers dissimilarity measures{#dissimilarity}
 
-The function ***hilldiss()*** computes overall dissimilarity metrics based on the Hill numbers beta diversity Chiu et al. 2014). By default the function outputs the following four dissimilarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the similarity metrics computed by ***hillsim()***.
+The function ***hilldiss()*** computes overall dissimilarity metrics based on the Hill numbers beta diversity following Chiu et al. (2014). By default the function outputs the following four dissimilarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the similarity metrics computed by ***hillsim()***.
 
 - **S** ***(Jaccard-type turnover):*** it quantifies the normalised species turnover rate in a sample relative to the total pool of samples (i.e., gamma diversity).
 - **V** ***(Sørensen-type turnover):*** it quantifies the normalised species turnover rate in a sample relative to one sample (i.e., alpha diversity).
@@ -151,7 +163,7 @@ hilldiss(data=counts,metric=c("C","U"),q=c(0,0.5,1),tree=tree)
 hilldiss(data=counts,q=2,dist=dist)
 ```
 
-### Hill numbers pairwise dissimilarities
+### Hill numbers pairwise dissimilarities{#pairwise}
 
 ```r
 hillpair(data=counts)
