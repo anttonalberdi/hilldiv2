@@ -117,10 +117,10 @@ hillpart(data=counts,q=2,dist=dist)
 
 The function ***hillsim()*** computes overall similarity metrics based on the Hill numbers beta diversity (Chiu et al. 2014). By default the function outputs the following four similarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the dissimilarity metrics computed by ***hilldiss()***.
 
-**S** ***(Jaccard-type turnover-complement):*** it quantifies the complement of the normalised species turnover rate in a sample relative to the total pool of samples (i.e., gamma diversity).
-**V** (Sørensen-type turnover-complement):*** it quantifies the complement of the normalised species turnover rate in a sample relative to one sample (i.e., alpha diversity).
-**U** ***(Jaccard-type overlap):*** it quantifies the proportion of shared species in the total pool of samples. Therefore, this metric quantifies similarity from the perspective of the pool of samples.
-**C** ***(Sørensen-type overlap):*** it quantifies the effective average proportion of shared OTUs/ASVs/MAGs in samples. Therefore, this metric quantifies similarity from the perspective of a single sample.
+- **S** ***(Jaccard-type turnover-complement):*** it quantifies the complement of the normalised species turnover rate in a sample relative to the total pool of samples (i.e., gamma diversity).
+- **V** (Sørensen-type turnover-complement):*** it quantifies the complement of the normalised species turnover rate in a sample relative to one sample (i.e., alpha diversity).
+- **U** ***(Jaccard-type overlap):*** it quantifies the proportion of shared species in the total pool of samples. Therefore, this metric quantifies similarity from the perspective of the pool of samples.
+- **C** ***(Sørensen-type overlap):*** it quantifies the effective average proportion of shared OTUs/ASVs/MAGs in samples. Therefore, this metric quantifies similarity from the perspective of a single sample.
 
 ```r
 hillsim(data=counts)
@@ -136,10 +136,10 @@ hillsim(data=counts,q=2,dist=dist)
 
 The function ***hilldiss()*** computes overall dissimilarity metrics based on the Hill numbers beta diversity Chiu et al. 2014). By default the function outputs the following four dissimilarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the similarity metrics computed by ***hillsim()***.
 
-**S** ***(Jaccard-type turnover):*** it quantifies the normalised species turnover rate in a sample relative to the total pool of samples (i.e., gamma diversity).
-**V** ***(Sørensen-type turnover):*** it quantifies the normalised species turnover rate in a sample relative to one sample (i.e., alpha diversity).
-**U** ***(Jaccard-type overlap-complement):*** it quantifies the proportion of non-shared species in the total pool of samples. Therefore, this metric quantifies dissimilarity from the perspective of the pool of samples.
-**C** ***(Sørensen-type overlap-complement):*** it quantifies the effective average proportion of non-shared OTUs/ASVs/MAGs in samples. Therefore, this metric quantifies dissimilarity from the perspective of a single sample.
+- **S** ***(Jaccard-type turnover):*** it quantifies the normalised species turnover rate in a sample relative to the total pool of samples (i.e., gamma diversity).
+- **V** ***(Sørensen-type turnover):*** it quantifies the normalised species turnover rate in a sample relative to one sample (i.e., alpha diversity).
+- **U** ***(Jaccard-type overlap-complement):*** it quantifies the proportion of non-shared species in the total pool of samples. Therefore, this metric quantifies dissimilarity from the perspective of the pool of samples.
+- **C** ***(Sørensen-type overlap-complement):*** it quantifies the effective average proportion of non-shared OTUs/ASVs/MAGs in samples. Therefore, this metric quantifies dissimilarity from the perspective of a single sample.
 
 ```r
 hilldiss(data=counts)
