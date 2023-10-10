@@ -20,7 +20,7 @@ For relevant literature visit the [References](#References)
   - [Hill numbers pairwise dissimilarities](#pairwise)
 - [References](#References)
 
-## Installation {#installation}
+## Installation
 
 hilldiv2 can be installed from this Github repository using devtools.
 
@@ -31,7 +31,7 @@ install_github("anttonalberdi/hilldiv2")
 library(hilldiv)
 ```
 
-## How to use it{#usage}
+## Usage
 
 The following examples use the lizard-associated metagenome-assembled genome (MAG) dataset included in the package.
 
