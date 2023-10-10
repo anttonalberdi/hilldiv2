@@ -233,7 +233,62 @@ hill_pair_dis <- hillpair(data=counts[,-c(12,16,19)],q=0)
 
 ### Hill numbers redundancy metrics
 
-To be added.
+Using ***hillred()*** phylogenetic and functional redundancy estimations can be carried out relying on the following increasing form of an exponential decay function: y=a*2^(-x/b)+c, where:
+**a** is the range of the functional Hill numbers (y value) between the lowest value in the set samples or population and the saturation value
+**b** is the units of neutral Hill numbers required to increase half of the range of functional Hill numbers, and the main parameter of interest.
+**c** is the value of the saturation point of functional Hill numbers (y value).
+
+As b is dependent of the maximum neutral diversity, the redundancy metric is derived from the division between the estimated parameter b and the maximum neutral diversity value in the sample set.
+
+The function outputs a table with the redundancy value and the estimated parameters, which can be used to plot redundancy charts.
+
+```r
+hillred(data=counts,tree=tree)
+hillred(data=counts,dist=dist)
+
+hillred(data=counts,q=1,tree=tree)
+hillred(data=counts,q=2,dist=dist)
+```
+
+#### Phylogenetic redundancy
+
+Example of phylogenetic redundancy.
+
+```r
+redundancy <- hillred(data=counts,q=1,tree=tree)
+xydata <- as.data.frame(t(rbind(hilldiv(data=counts,q=1),hilldiv(data=counts,q=1,tree=tree))))
+colnames(xydata) <- c("neutral","phylogenetic")
+
+#Declare relationship function
+relationship_function <- function(x, a, b, c) {return(-a*2^(-x/b)+c)}
+
+#Plot data points
+ggplot(xydata, aes(x = xydata[,1], y = xydata[,2])) +
+  geom_point() +
+  geom_smooth(method = "nls", formula = y ~ relationship_function(x, a, b, c), method.args = list(start = redundancy[,-1]), se = FALSE) +
+  labs(title = "Phylogenetic redundancy plot", x = "Neutral diversity", y = "Phylogenetic diversity")
+
+```
+
+#### Functional redundancy
+
+Example of functional redundancy.
+
+```r
+redundancy <- hillred(data=counts,q=1,dist=dist)
+xydata <- as.data.frame(t(rbind(hilldiv(data=counts,q=1),hilldiv(data=counts,q=1,dist=dist))))
+colnames(xydata) <- c("neutral","functional")
+
+#Declare relationship function
+relationship_function <- function(x, a, b, c) {return(-a*2^(-x/b)+c)}
+
+#Plot data points
+ggplot(xydata, aes(x = xydata[,1], y = xydata[,2])) +
+  geom_point() +
+  geom_smooth(method = "nls", formula = y ~ relationship_function(x, a, b, c), method.args = list(start = redundancy[,-1]), se = FALSE) +
+  labs(title = "Functional redundancy plot", x = "Neutral diversity", y = "Functional diversity")
+
+```
 
 ## References
 
