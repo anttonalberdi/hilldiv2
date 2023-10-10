@@ -12,10 +12,10 @@
 #' @importFrom geiger tips
 #' @seealso \code{\link{hilldiss}}, \code{\link{hillpair}}, \code{\link{hillpart}}, \code{\link{hilldiv}}
 #' @examples
-#' hillredun(data=counts,tree=tree)
-#' hillredun(data=counts,dist=dist)
-#' hillredun(data=counts,q=1,tree=tree)
-#' hillredun(data=counts,q=2,dist=dist)
+#' hillred(data=counts,tree=tree)
+#' hillred(data=counts,dist=dist)
+#' hillred(data=counts,q=1,tree=tree)
+#' hillred(data=counts,q=2,dist=dist)
 #' @references
 #' Jost, L. (2006). Entropy and diversity. Oikos, 113, 363-375.\cr\cr
 #' Hill, M. O. (1973). Diversity and evenness: a unifying notation and its consequences. Ecology, 54, 427-432.\cr\cr
@@ -23,7 +23,7 @@
 #' Alberdi, A., Gilbert, M.T.P. (2019). A guide to the application of Hill numbers to DNA-based diversity analyses. Molecular Ecology Resources, 19, 804-817.
 #' @export
 
-hillredun <- function(data,q=c(0,1,2),tree,dist,tau){
+hillred <- function(data,q=c(0,1,2),tree,dist,tau){
 
     ###
     # Quality-check
@@ -67,11 +67,9 @@ hillredun <- function(data,q=c(0,1,2),tree,dist,tau){
     if(hilltype == "phylogenetic"){
         if(nrow(data) != length(tree$tip.label)) stop("The OTU/ASV/MAG names in the count table and tree tips do not match.")
         if(all(sort(rownames(data)) != sort(tree$tip.label))) stop("The OTU/ASV/MAG names in the count table and tree tips do not match.")
-        qvalues <- paste(paste0("q",q),collapse = ", ")
 
-        x=c(hilldiv(data=data,q=q))
-        y=c(hilldiv(data=data,q=q,tree=tree))
-
+        x_all <- suppressMessages(hilldiv(data=data,q=q))
+        y_all <- suppressMessages(hilldiv(data=data,q=q,tree=tree))
     }
 
     # Functional Hill numbers
@@ -79,12 +77,26 @@ hillredun <- function(data,q=c(0,1,2),tree,dist,tau){
         if(nrow(data) != nrow(dist)) stop("The count table and the functional distance table do not match.")
         if(all(sort(rownames(data)) != sort(rownames(dist)))) stop("The count table and the functional distance table do not match.")
         dist <- dist[rownames(data),rownames(data)]
-        qvalues <- paste(paste0("q",q),collapse = ", ")
 
-        x=c(hilldiv(data=data,q=q))
-        y=c(hilldiv(data=data,q=q,dist=dist))
+        x_all <- suppressMessages(hilldiv(data=data,q=q))
+        y_all <- suppressMessages(hilldiv(data=data,q=q,dist=dist))
 
     }
-
-
+    results <- matrix(0, nrow = length(q), ncol = 4)
+    for (i in 1:length(q)){
+      qvalue <- q[i]
+      x <- x_all[i,]
+      y <- y_all[i,]
+      tryCatch({
+      fit <- nls(y ~ relationship_function(x, a, b, c), start = list(a = max(y)-min(y), b = (max(x)-min(x))/2, c = max(y)), control = list(maxiter = 1000))
+    }, error = function(e) {cat("The redundancy of ",paste0("q",qvalue)," could not be properly estimated because of this reason:", conditionMessage(e), "\n")})
+      redundancy = summary(fit)$coefficients[2,1]/max(x)
+      a_estimate = summary(fit)$coefficients[1,1]
+      b_estimate = summary(fit)$coefficients[2,1]
+      c_estimate = summary(fit)$coefficients[3,1]
+      results[i, ] <- c(redundancy,a_estimate,b_estimate,c_estimate)
+    }
+    rownames(results) <- paste0("q",q)
+    colnames(results) <- c("redundancy","a","b","c")
+    return(results)
 }

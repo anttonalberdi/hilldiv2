@@ -37,5 +37,7 @@ Collate:
     'hilldiv.R'
     'hillpart.R'
     'hillpair.R'
+    'hillred.R'
+    'hillsim.R'
     'tss.R'
     'traits2dist.R'
