@@ -51,6 +51,17 @@ The trait table needs to be in a tabular format, with OTUs/ASVs/MAGs in rows, an
 | MAG3 | 0.2 | 0   | 0.13 | 0.80 |
 | MAG4 | 0.9 | 1   | 0.8  | 0.7  |
 
+#### Sample metadata table
+
+The sample metadata table needs to be in a tabular format, with samples in rows, and relevant metadata fields in columns.
+
+|      | Population | Sex | Weight | Length |
+| ---  |---|---|---|---|
+| Sample1 | PopulationA | Female | 7.54  | 12.4 |
+| Sample2 | PopulationA | Male   | 6.24  | 11.2 |
+| Sample3 | PopulationB | Female | 8.43  | 14.2 |
+| Sample4 | PopulationB | Male   | 4.35  | 10.1 |
+
 ### Load data and prepare functional data
 
 ```r
@@ -90,17 +101,45 @@ hilldiv(data=counts,q=2,dist=dist,tau=max(dist))
 
 ### Hill numbers diversity partitioning
 
+The function ***hillpart()*** performs partitioning of any type of Hill numbers-based diversity (neutral, phylogenetic and functional) at any order(s) of diversity (q>0) into alpha, gamma and beta components.
+
 ```r
 hillpart(data=counts)
 hillpart(data=counts,tree=tree)
 hillpart(data=counts,dist=dist)
 
 hillpart(data=counts,q=0)
-hillpart(data=counts,q=1,tree=tree)
+hillpart(data=counts,q=c(0,0.5,1),tree=tree)
 hillpart(data=counts,q=2,dist=dist)
 ```
 
+### Hill numbers similarity measures
+
+The function ***hillsim()*** computes overall similarity metrics based on the Hill numbers beta diversity (Chiu et al. 2014). By default the function outputs the following four similarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the dissimilarity metrics computed by ***hilldiss()***.
+
+**S** ***(Jaccard-type turnover-complement):*** it quantifies the complement of the normalised species turnover rate in a sample relative to the total pool of samples (i.e., gamma diversity).
+**V** (Sørensen-type turnover-complement):*** it quantifies the complement of the normalised species turnover rate in a sample relative to one sample (i.e., alpha diversity).
+**U** ***(Jaccard-type overlap):*** it quantifies the proportion of shared species in the total pool of samples. Therefore, this metric quantifies similarity from the perspective of the pool of samples.
+**C** ***(Sørensen-type overlap):*** it quantifies the effective average proportion of shared OTUs/ASVs/MAGs in samples. Therefore, this metric quantifies similarity from the perspective of a single sample.
+
+```r
+hillsim(data=counts)
+hillsim(data=counts,tree=tree)
+hillsim(data=counts,dist=dist)
+
+hillsim(data=counts,q=0)
+hillsim(data=counts,metric=c("C","U"),q=c(0,0.5,1),tree=tree)
+hillsim(data=counts,q=2,dist=dist)
+```
+
 ### Hill numbers dissimilarity measures
+
+The function ***hilldiss()*** computes overall dissimilarity metrics based on the Hill numbers beta diversity Chiu et al. 2014). By default the function outputs the following four dissimilarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the similarity metrics computed by ***hillsim()***.
+
+**S** ***(Jaccard-type turnover):*** it quantifies the normalised species turnover rate in a sample relative to the total pool of samples (i.e., gamma diversity).
+**V** ***(Sørensen-type turnover):*** it quantifies the normalised species turnover rate in a sample relative to one sample (i.e., alpha diversity).
+**U** ***(Jaccard-type overlap-complement):*** it quantifies the proportion of non-shared species in the total pool of samples. Therefore, this metric quantifies dissimilarity from the perspective of the pool of samples.
+**C** ***(Sørensen-type overlap-complement):*** it quantifies the effective average proportion of non-shared OTUs/ASVs/MAGs in samples. Therefore, this metric quantifies dissimilarity from the perspective of a single sample.
 
 ```r
 hilldiss(data=counts)
@@ -108,7 +147,7 @@ hilldiss(data=counts,tree=tree)
 hilldiss(data=counts,dist=dist)
 
 hilldiss(data=counts,q=0)
-hilldiss(data=counts,q=1,tree=tree)
+hilldiss(data=counts,metric=c("C","U"),q=c(0,0.5,1),tree=tree)
 hilldiss(data=counts,q=2,dist=dist)
 ```
 

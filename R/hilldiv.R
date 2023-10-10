@@ -3,7 +3,7 @@
 #' @author Antton Alberdi, \email{anttonalberdi@gmail.com}
 #' @keywords OTU ASV MAG diversity
 #' @description Compute neutral, phylogenetic and/or functional Hill numbers from a single sample (vector) or count table (matrix).
-#' @param data A vector or a matrix/data.frame indicating the (relative) counts of one or multiple samples, respectively. If a matrix/data.frame is provided, columns must refer to samples and rows to OTUs.
+#' @param data A vector or a matrix/data.frame indicating the (relative) counts of one or multiple samples, respectively. If a matrix/data.frame is provided, must refer to samples and rows to OTUs/ASVs/MAGs.
 #' @param q A positive integer or decimal number (>=0), or a vector of numbers, usually between 0 and 3.
 #' @param tree A phylogenetic tree of class 'phylo'. The tip labels must match the names of the vector values (if one sample) or matrix rows (if multiple samples). Use the function match_data() if the OTU names do not match.
 #' @param dist A distance matrix indicating the pairwise functional distances between samples.
