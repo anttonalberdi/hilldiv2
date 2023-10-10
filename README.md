@@ -6,7 +6,7 @@ The statistical framework developed around Hill numbers encompasses many of the 
 
 Alberdi A, Gilbert MTP. (2019). A guide to the application of Hill numbers to DNA‐based diversity analyses. Molecular Ecology Resources. 19(4): 804-817. https://doi.org/10.1111/1755-0998.13014
 
-For relevant literature visit the [References](#References)
+For relevant literature visit the [References](#references)
 
 ## Contents
 
@@ -14,11 +14,11 @@ For relevant literature visit the [References](#References)
 - [Usage](#usage)
   - [Data input](#data-input)
   - [Hill numbers diversity metrics](#hill-numbers-diversity-metrics)
-  - [Hill numbers diversity partitioning](#partitioning)
-  - [Hill numbers similarity measures](#similarity)
-  - [Hill numbers dissimilarity measures](#dissimilarity)
-  - [Hill numbers pairwise dissimilarities](#pairwise)
-- [References](#References)
+  - [Hill numbers diversity partitioning](#hill-numbers-diversity-partitioning)
+  - [Hill numbers similarity metrics](#hill-numbers-similarity-metrics)
+  - [Hill numbers dissimilarity metrics](#hill-numbers-dissimilarity-metrics)
+  - [Hill numbers pairwise dissimilarities](#hill-numbers-pairwise-dissimilarities)
+- [References](#references)
 
 ## Installation
 
@@ -125,7 +125,7 @@ hillpart(data=counts,q=c(0,0.5,1),tree=tree)
 hillpart(data=counts,q=2,dist=dist)
 ```
 
-### Hill numbers similarity measures{#similarity}
+### Hill numbers similarity metrics
 
 The function ***hillsim()*** computes overall similarity metrics based on the Hill numbers beta diversity following Chiu et al. (2014). By default the function outputs the following four similarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the dissimilarity metrics computed by ***hilldiss()***.
 
@@ -144,7 +144,7 @@ hillsim(data=counts,metric=c("C","U"),q=c(0,0.5,1),tree=tree)
 hillsim(data=counts,q=2,dist=dist)
 ```
 
-### Hill numbers dissimilarity measures{#dissimilarity}
+### Hill numbers dissimilarity metrics
 
 The function ***hilldiss()*** computes overall dissimilarity metrics based on the Hill numbers beta diversity following Chiu et al. (2014). By default the function outputs the following four dissimilarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the similarity metrics computed by ***hillsim()***.
 
@@ -163,7 +163,7 @@ hilldiss(data=counts,metric=c("C","U"),q=c(0,0.5,1),tree=tree)
 hilldiss(data=counts,q=2,dist=dist)
 ```
 
-### Hill numbers pairwise dissimilarities{#pairwise}
+### Hill numbers pairwise dissimilarities
 
 ```r
 hillpair(data=counts)
