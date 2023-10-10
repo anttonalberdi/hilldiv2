@@ -13,11 +13,12 @@ For relevant literature visit the [References](#references)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Data input](#data-input)
-  - [Hill numbers diversity metrics using **hilldiv**](#hill-numbers-diversity-metrics)
-  - [Hill numbers diversity partitioning](#hill-numbers-diversity-partitioning)
-  - [Hill numbers similarity metrics](#hill-numbers-similarity-metrics)
-  - [Hill numbers dissimilarity metrics](#hill-numbers-dissimilarity-metrics)
-  - [Hill numbers pairwise dissimilarities](#hill-numbers-pairwise-dissimilarities)
+  - [Hill numbers diversity metrics using **hilldiv()**](#hill-numbers-diversity-metrics)
+  - [Hill numbers diversity partitioning using **hillpart()**](#hill-numbers-diversity-partitioning)
+  - [Hill numbers similarity metrics using **hillsim()**](#hill-numbers-similarity-metrics)
+  - [Hill numbers dissimilarity metrics using **hilldiss()**](#hill-numbers-dissimilarity-metrics)
+  - [Hill numbers pairwise dissimilarities using **hillpart()**](#hill-numbers-pairwise-dissimilarities)
+  - [Hill numbers redundancy metrics using **hillred()**](#hill-numbers-redundancy-metrics)
 - [References](#references)
 
 ## Installation
@@ -230,6 +231,9 @@ hill_pair_dis <- hillpair(data=counts[,-c(12,16,19)],q=0)
  ```
   ![NMDS ordination of phylogenetic diversities of q=1](/images/nmds3.png)
 
+### Hill numbers redundancy metrics
+
+To be added.
 
 ## References
 
