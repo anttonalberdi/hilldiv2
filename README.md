@@ -11,9 +11,9 @@ For relevant literature visit the [References](#References)
 ## Contents
 
 - [Installation](#installation)
-- [How to use it](#usage)
-  - [Data input](#data_input)
-  - [Hill numbers diversity metrics](#diversity)
+- [Usage](#usage)
+  - [Data input](#data-input)
+  - [Hill numbers diversity metrics](#hill-numbers-diversity-metrics)
   - [Hill numbers diversity partitioning](#partitioning)
   - [Hill numbers similarity measures](#similarity)
   - [Hill numbers dissimilarity measures](#dissimilarity)
@@ -35,7 +35,7 @@ library(hilldiv)
 
 The following examples use the lizard-associated metagenome-assembled genome (MAG) dataset included in the package.
 
-### Data input{#data_input}
+### Data input
 
 #### Counts table
 
@@ -86,7 +86,7 @@ traits <- lizards_traits
 dist <- traits2dist(traits, method="gower")
 ```
 
-### Hill numbers diversity metrics{#diversity}
+### Hill numbers diversity metrics
 
 The single function ***hilldiv()*** is used to calculate neutral, phylogenetic and functional Hill numbers, depending on the information that is inputed to the function. If only the count data is inputed, then neutral (aka taxonomic) Hill numbers are computed. If a phylogenetic tree is also inputed, then phylogenetic Hill numbers are computed. If a distance matrix is imputed, then functional Hill numbers are computed. If no q-value is used, Hill numbers of order of diversity q=0, q=1 and q=2 are computed as default.
 
