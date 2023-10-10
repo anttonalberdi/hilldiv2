@@ -20,7 +20,7 @@ For relevant literature visit the [References](#References)
   - [Hill numbers pairwise dissimilarities](#pairwise)
 - [References](#References)
 
-## Installation{#installation}
+## Installation {#installation}
 
 hilldiv2 can be installed from this Github repository using devtools.
 
