@@ -111,7 +111,7 @@ hilldiv(data=counts,q=2,dist=dist,tau=0.3)
 hilldiv(data=counts,q=2,dist=dist,tau=max(dist))
 ```
 
-### Hill numbers diversity partitioning{#partitioning}
+### Hill numbers diversity partitioning
 
 The function ***hillpart()*** performs partitioning of any type of Hill numbers-based diversity (neutral, phylogenetic and functional) at any order(s) of diversity (q>0) into alpha, gamma and beta components.
 
@@ -146,7 +146,7 @@ hillsim(data=counts,q=2,dist=dist)
 
 ### Hill numbers dissimilarity metrics
 
-The function ***hilldiss()*** computes overall dissimilarity metrics based on the Hill numbers beta diversity following Chiu et al. (2014). By default the function outputs the following four dissimilarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the similarity metrics computed by ***hillsim()***.
+The function ***hilldiss()*** computes overall dissimilarity metrics based on the Hill numbers beta diversity following Chiu et al. (2014). By default the function outputs the following four dissimilarity metrics, although users can limit the output to a single or some of those metrics. Calculations can be done for a single q-value or multiple q-values. Note these metrics are the complements (1-X) of the similarity metrics computed by ***hillsim()***. Also note that this function does not yield useful data for beta-diversity based ordinations, ***hillpair()*** should be used instead.
 
 - **S** ***(Jaccard-type turnover):*** it quantifies the normalised species turnover rate in a sample relative to the total pool of samples (i.e., gamma diversity).
 - **V** ***(Sørensen-type turnover):*** it quantifies the normalised species turnover rate in a sample relative to one sample (i.e., alpha diversity).
@@ -164,6 +164,8 @@ hilldiss(data=counts,q=2,dist=dist)
 ```
 
 ### Hill numbers pairwise dissimilarities
+
+Using ***hillpair()***, dissimilarities are computed for every pairwise combination of samples, rather than the entire sample set (see ***hilldiss()***).
 
 ```r
 hillpair(data=counts)
