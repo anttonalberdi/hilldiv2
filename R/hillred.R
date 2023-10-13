@@ -37,7 +37,7 @@ hillred <- function(data,q=c(0,1,2),tree,dist,tau){
     # Definition of the neutral-functional relationship function
     ###
 
-    # We use an increasing form of an exponential decat function where:
+    # We use an increasing form of an exponential decay function where:
     # a = range of the functional Hill numbers (y value) between the lowest value in the set samples or population and the saturation value
     # b = units of neutral Hill numbers required to increase half of the range of functional Hill numbers
     # c = value of the saturation point of functional Hill numbers (y value)

@@ -183,7 +183,6 @@ hillpair(data=counts,q=2,dist=dist)
 Pairwise dissimilarity values of any type of diversity (neutral, phylogenetic or functional) and q-value (q=0, q=1, q=2, etc.) can be used to generate dissimilarity-based ordinations. Each type of diversity and q-value provides a different type of information, which is why it is recommendable to plot multiple ordinations to identify the main features contributing to the separation across contrasted groups.
 
 ```r
-library(spaa)
 library(vegan)
 library(ggplot2)
 
@@ -199,7 +198,10 @@ hill_pair_dis <- hillpair(data=counts[,-c(12,16,19)],q=1)
 hill_pair_dis_nmds <- hill_pair_dis %>%
 				select(first,second,C) %>% #based on dissimilarity metric C
 				as.data.frame() %>%
-				list2dist() %>%
+        pivot_wider(names_from = first, values_from = C) %>%
+				column_to_rownames(var = "second") %>%
+				as.matrix() %>%
+				as.dist() %>%
 				metaMDS(.,trymax = 500, k=2, verbosity=FALSE) %>%
 				scores() %>%
 				as_tibble(., rownames = "sample")
@@ -252,7 +254,7 @@ hillred(data=counts,q=2,dist=dist)
 
 #### Phylogenetic redundancy
 
-Example of phylogenetic redundancy.
+Example of phylogenetic redundancy:
 
 ```r
 redundancy <- hillred(data=counts,q=1,tree=tree)
@@ -266,13 +268,16 @@ relationship_function <- function(x, a, b, c) {return(-a*2^(-x/b)+c)}
 ggplot(xydata, aes(x = xydata[,1], y = xydata[,2])) +
   geom_point() +
   geom_smooth(method = "nls", formula = y ~ relationship_function(x, a, b, c), method.args = list(start = redundancy[,-1]), se = FALSE) +
-  labs(title = "Phylogenetic redundancy plot", x = "Neutral diversity", y = "Phylogenetic diversity")
+  labs(title = "Phylogenetic redundancy plot", x = "Neutral diversity", y = "Phylogenetic diversity") +
+  theme_classic() +
+  annotate('text', label=paste0(" Redundancy: ",round(redundancy[,1],2)), x=-Inf, y=Inf, hjust=0, vjust=1)
+
 
 ```
 
 #### Functional redundancy
 
-Example of functional redundancy.
+Example of functional redundancy:
 
 ```r
 redundancy <- hillred(data=counts,q=1,dist=dist)
@@ -286,7 +291,9 @@ relationship_function <- function(x, a, b, c) {return(-a*2^(-x/b)+c)}
 ggplot(xydata, aes(x = xydata[,1], y = xydata[,2])) +
   geom_point() +
   geom_smooth(method = "nls", formula = y ~ relationship_function(x, a, b, c), method.args = list(start = redundancy[,-1]), se = FALSE) +
-  labs(title = "Functional redundancy plot", x = "Neutral diversity", y = "Functional diversity")
+  labs(title = "Functional redundancy plot", x = "Neutral diversity", y = "Functional diversity") +
+  theme_classic() +  
+  annotate('text', label=paste0(" Redundancy: ",round(redundancy[,1],2)), x=-Inf, y=Inf, hjust=0, vjust=1)
 
 ```
 
