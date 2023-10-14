@@ -90,7 +90,7 @@ hillred <- function(data,q=c(0,1,2),tree,dist,tau){
       tryCatch({
       fit <- nls(y ~ relationship_function(x, a, b, c), start = list(a = max(y)-min(y), b = (max(x)-min(x))/2, c = max(y)), control = list(maxiter = 1000))
     }, error = function(e) {cat("The redundancy of ",paste0("q",qvalue)," could not be properly estimated because of this reason:", conditionMessage(e), "\n")})
-      redundancy = summary(fit)$coefficients[2,1]/max(x)
+      redundancy = 1-(summary(fit)$coefficients[2,1]/max(x))
       a_estimate = summary(fit)$coefficients[1,1]
       b_estimate = summary(fit)$coefficients[2,1]
       c_estimate = summary(fit)$coefficients[3,1]

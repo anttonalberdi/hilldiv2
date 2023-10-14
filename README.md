@@ -82,6 +82,7 @@ The sample metadata table needs to be in a tabular format, with samples in rows,
 counts <- lizards_counts
 tree <- lizards_tree
 traits <- lizards_traits
+metadata <- lizards_metadata
 
 #Convert traits into distance matrix
 dist <- traits2dist(traits, method="gower")
@@ -89,7 +90,7 @@ dist <- traits2dist(traits, method="gower")
 
 ### Hill numbers diversity metrics
 
-The single function ***hilldiv()*** is used to calculate neutral, phylogenetic and functional Hill numbers, depending on the information that is inputed to the function. If only the count data is inputed, then neutral (aka taxonomic) Hill numbers are computed. If a phylogenetic tree is also inputed, then phylogenetic Hill numbers are computed. If a distance matrix is imputed, then functional Hill numbers are computed. If no q-value is used, Hill numbers of order of diversity q=0, q=1 and q=2 are computed as default.
+The versatile function ***hilldiv()*** serves to compute Hill numbers of different types – neutral, phylogenetic, and functional – based on the input provided. When only count data is supplied, the function calculates neutral Hill numbers, which are also known as taxonomic Hill numbers. When both count data and a phylogenetic tree are provided, the function computes phylogenetic Hill numbers. If a distance matrix is included as input, the function calculates functional Hill numbers. In the absence of a specific q-value, the function defaults to calculating Hill numbers of order q=0, q=1, and q=2 to measure diversity.
 
 ```r
 hilldiv(data=counts)
@@ -111,6 +112,28 @@ For functional Hill numbers, it is possible to define a desired Tau value as wel
 hilldiv(data=counts,q=2,dist=dist,tau=0.3)
 hilldiv(data=counts,q=2,dist=dist,tau=max(dist))
 ```
+
+#### Hill numbers diversity plotting
+
+Hill numbers can be then displayed visually using ggplot2.
+
+```r
+hilldiv(data=counts,q=1,tree=tree) %>%
+    as.data.frame() %>%
+    pivot_longer(everything(),names_to = "sample", values_to = "value") %>%
+    left_join(metadata, by = join_by(sample == sample)) %>%
+    ggplot(., aes(x=population, y=value, color=population, fill=population)) +
+        geom_boxplot() +
+        geom_jitter() +
+        scale_color_manual(values = c("#E3D97B","#46edc8","#374d7c")) +
+        scale_fill_manual(values = c("#E3D97B50","#46edc850","#374d7c50")) +
+        labs(y = "Phylogenetic diversity") +
+        theme_classic() +
+        theme(legend.position="null",
+        axis.title.x = element_blank())
+```
+
+![Visualisation of phylogenetic diversities of q=1](/images/alpha.png)
 
 ### Hill numbers diversity partitioning
 
@@ -207,7 +230,6 @@ hill_pair_dis_nmds <- hill_pair_dis %>%
 				as_tibble(., rownames = "sample")
 
 #Add metadata
-metadata <- lizards_metadata
 hill_pair_dis_nmds <- hill_pair_dis_nmds %>%
       left_join(metadata, by = join_by(sample == sample))
 
@@ -267,13 +289,13 @@ relationship_function <- function(x, a, b, c) {return(-a*2^(-x/b)+c)}
 #Plot data points
 ggplot(xydata, aes(x = xydata[,1], y = xydata[,2])) +
   geom_point() +
-  geom_smooth(method = "nls", formula = y ~ relationship_function(x, a, b, c), method.args = list(start = redundancy[,-1]), se = FALSE) +
-  labs(title = "Phylogenetic redundancy plot", x = "Neutral diversity", y = "Phylogenetic diversity") +
+  geom_smooth(method = "nls", formula = y ~ relationship_function(x, a, b, c), method.args = list(start = redundancy[,-1]), se = FALSE, colour="#E3D97B") +
+  labs(x = "Neutral diversity", y = "Phylogenetic diversity") +
   theme_classic() +
   annotate('text', label=paste0(" Redundancy: ",round(redundancy[,1],2)), x=-Inf, y=Inf, hjust=0, vjust=1)
-
-
 ```
+
+![Phylogenetic redundancy of q=1](/images/phylo_redundancy.png)
 
 #### Functional redundancy
 
@@ -290,12 +312,15 @@ relationship_function <- function(x, a, b, c) {return(-a*2^(-x/b)+c)}
 #Plot data points
 ggplot(xydata, aes(x = xydata[,1], y = xydata[,2])) +
   geom_point() +
-  geom_smooth(method = "nls", formula = y ~ relationship_function(x, a, b, c), method.args = list(start = redundancy[,-1]), se = FALSE) +
-  labs(title = "Functional redundancy plot", x = "Neutral diversity", y = "Functional diversity") +
+  geom_smooth(method = "nls", formula = y ~ relationship_function(x, a, b, c), method.args = list(start = redundancy[,-1]), se = FALSE, colour="#46edc8") +
+  labs(x = "Neutral diversity", y = "Functional diversity") +
   theme_classic() +  
   annotate('text', label=paste0(" Redundancy: ",round(redundancy[,1],2)), x=-Inf, y=Inf, hjust=0, vjust=1)
 
 ```
+
+![Functional redundancy of q=1](/images/func_redundancy.png)
+
 
 ## References
 
