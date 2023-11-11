@@ -2,7 +2,7 @@
 % Please edit documentation in R/traits2dist.R
 \name{traits2dist}
 \alias{traits2dist}
-\title{Hill numbers computation}
+\title{Traits to distance}
 \usage{
 traits2dist(traits, method = "gower")
 }
@@ -12,10 +12,10 @@ traits2dist(traits, method = "gower")
 \item{method}{The distance metric to be applied: "euclidean", "manhattan" or "gower" (default: "gower").}
 }
 \description{
-Compute neutral, phylogenetic and/or functional Hill numbers from a single sample (vector) or count table (matrix).
+Convert traits matrix into a distance matrix.
 }
 \details{
-Hill numbers computation
+Convert traits matrix into a distance matrix
 }
 \examples{
 traits2dist(trait,method="gower")

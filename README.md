@@ -90,7 +90,7 @@ dist <- traits2dist(traits, method="gower")
 
 ### Hill numbers diversity metrics
 
-The versatile function ***hilldiv()*** serves to compute Hill numbers of different types – neutral, phylogenetic, and functional – based on the input provided. When only count data is supplied, the function calculates neutral Hill numbers, which are also known as taxonomic Hill numbers. When both count data and a phylogenetic tree are provided, the function computes phylogenetic Hill numbers. If a distance matrix is included as input, the function calculates functional Hill numbers. In the absence of a specific q-value, the function defaults to calculating Hill numbers of order q=0, q=1, and q=2 to measure diversity.
+The versatile function ***hilldiv()*** serves to compute Hill numbers of different types – neutral, phylogenetic, and functional – based on the input provided. When only count data is supplied, the function calculates neutral Hill numbers, which are also known as taxonomic Hill numbers. When both count data and a phylogenetic tree are provided, the function computes phylogenetic Hill numbers, in the form of "effective number of lineages" or qD(T) according to Chao et al. (2016). If a distance matrix is included as input, the function calculates functional Hill numbers. In the absence of a specific q-value, the function defaults to calculating Hill numbers of order q=0, q=1, and q=2 to measure diversity.
 
 ```r
 hilldiv(data=counts)
@@ -221,10 +221,7 @@ hill_pair_dis <- hillpair(data=counts[,-c(12,16,19)],q=1)
 hill_pair_dis_nmds <- hill_pair_dis %>%
 				select(first,second,C) %>% #based on dissimilarity metric C
 				as.data.frame() %>%
-        pivot_wider(names_from = first, values_from = C) %>%
-				column_to_rownames(var = "second") %>%
-				as.matrix() %>%
-				as.dist() %>%
+        list2dist() %>%
 				metaMDS(.,trymax = 500, k=2, verbosity=FALSE) %>%
 				scores() %>%
 				as_tibble(., rownames = "sample")
@@ -330,5 +327,6 @@ ggplot(xydata, aes(x = xydata[,1], y = xydata[,2])) +
 - Chao, A., Chiu, C.-H., & Jost, L. (2010). Phylogenetic diversity measures based on Hill numbers. Philosophical Transactions of the Royal Society of London. Series B, Biological Sciences, 365(1558), 3599–3609.
 - Chao, A., Chiu, C.-H., & Hsieh, T. C. (2012). Proposing a resolution to debates on diversity partitioning. Ecology, 93(9), 2037–2051.
 - Chao, A. & Jost, L. (2015) Estimating diversity and entropy profiles via discovery rates of new species. Methods in Ecology and Evolution, 6, 873-882.
+- Chao, A., Chiu, CH., Jost, L. (2016). Phylogenetic Diversity Measures and Their Decomposition: A Framework Based on Hill Numbers. In: Pellens, R., Grandcolas, P. (eds) Biodiversity Conservation and Phylogenetic Systematics. Topics in Biodiversity and Conservation, vol 14. Springer, Cham.
 - Chao et al. 2018. An attribute-diversity approach to functional diversity, functional beta diversity, and related (dis)similarity measures. Ecological Monographs 89(2), e01343.
 - Alberdi A., Gilbert M.T.P. (2019). A guide to the application of Hill numbers to DNA-based diversity analyses. Molecular Ecology Resources, 19(4), 804-817.

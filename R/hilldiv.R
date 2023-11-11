@@ -82,9 +82,9 @@ hilldiv <- function(data,q=c(0,1,2),tree,dist,tau){
       for (i in 1:length(q)){
         qvalue <- q[i]
         if(qvalue==1){
-            results[i] <- exp(-sum(Li[ai != 0] * (ai[ai != 0]/T) * log(ai[ai != 0]/T))) # special case for q=1
+            results[i] <- exp(-sum(Li[ai != 0] * (ai[ai != 0]/T) * log(ai[ai != 0]/T)))/T # special case for q=1
         }else{
-            results[i] <- sum(Li[ai != 0] * (ai[ai != 0]/T)^qvalue)^(1/(1-qvalue)) # all other q values
+            results[i] <- sum(Li[ai != 0] * (ai[ai != 0]/T)^qvalue)^(1/(1-qvalue))/T # all other q values
             }
         }
       names(results) <- paste0("q",q)
@@ -92,7 +92,63 @@ hilldiv <- function(data,q=c(0,1,2),tree,dist,tau){
       }
 
   #Phylogentic Hill numbers: Function for multiple samples and q values
+  #When averaging T value, it can yield imperfections in lowest diversity samples if there is a large difference with others
   hilldiv.phylogenetic.multi <- function(matrix,q=c(0,1,2),tree){
+      Li <- tree$edge.length
+      ltips <- sapply(tree$edge[, 2], function(node) tips(tree, node))
+      ai.multi <- apply(matrix, 2, function(vector) unlist(lapply(ltips, function(TipVector) sum(tss(vector)[TipVector]))))
+
+      #Calculate reference T for an even distribution of all present MAGs
+      pool <- matrix %>%
+          rowwise() %>%
+          mutate(pool = if_else(any(c_across(everything()) != 0), 1, 0)) %>%
+          select(pool) %>%
+          pull() #generate a pool of equally abundant MAGs
+      names(pool) <- rownames(matrix)
+      ai.all <- unlist(lapply(ltips, function(TipVector) sum(tss(pool)[TipVector])))
+      T <- sum(Li * ai.all)
+
+      #Calculate present OTUs/ASVs/MAGs
+      present <- colSums(matrix != 0)
+
+      #Calculate Hill numbers
+      results <- matrix(0, nrow = length(q), ncol = ncol(matrix))
+      for (i in 1:length(q)){
+        qvalue <- q[i]
+        if(qvalue==1){
+            phylo.q1.func <- function(ai, p) {
+              if(p == 0){
+                return(0)
+              }else if(p == 1){
+                return(1)
+              }else{
+                return(exp(-sum(Li[ai!=0] * (ai[ai!=0]/T) * log(ai[ai!=0]/T)))/T)
+              }
+            }
+            results[i, ] <- sapply(1:ncol(ai.multi), function(i, p) phylo.q1.func(ai.multi[, i], present[i])) # special case for q=1
+        }else{
+            phylo.all.func <- function(ai, p) {
+              if(p == 0){
+                return(0)
+              }else if(p == 1){
+                return(1)
+              }else{
+               return(sum(Li[ai!=0] * (ai[ai!=0]/T)^qvalue)^(1/(1-qvalue))/T)
+              }
+            }
+            results[i, ] <- sapply(1:ncol(ai.multi), function(i, p) phylo.all.func(ai.multi[, i], present[i])) # all other q values
+            }
+        }
+
+      #Add column and row names to results table
+      rownames(results) <- paste0("q",q)
+      colnames(results) <- colnames(matrix)
+      return(results)
+      }
+
+  #Phylogentic Hill numbers: Function for multiple samples and q values
+  #Function to calculate Hill numbers with a different T per sample (problematic for diversity partitioning)
+  hilldiv.phylogenetic.multi_independentT <- function(matrix,q=c(0,1,2),tree){
       Li <- tree$edge.length
       ltips <- sapply(tree$edge[, 2], function(node) tips(tree, node))
       ai.multi <- apply(matrix, 2, function(vector) unlist(lapply(ltips, function(TipVector) sum(tss(vector)[TipVector]))))
@@ -101,10 +157,10 @@ hilldiv <- function(data,q=c(0,1,2),tree,dist,tau){
       for (i in 1:length(q)){
         qvalue <- q[i]
         if(qvalue==1){
-            phylo.q1.func <- function(ai,T) {exp(-sum(Li[ai!=0] * (ai[ai!=0]/T) * log(ai[ai!=0]/T)))}
+            phylo.q1.func <- function(ai,T) {exp(-sum(Li[ai!=0] * (ai[ai!=0]/T) * log(ai[ai!=0]/T)))/T}
             results[i, ] <- sapply(1:ncol(ai.multi), function(i) phylo.q1.func(ai.multi[, i], T.multi[i])) # special case for q=1
         }else{
-            phylo.all.func <- function(ai,T) {sum(Li[ai!=0] * (ai[ai!=0]/T)^qvalue)^(1/(1-qvalue))}
+            phylo.all.func <- function(ai,T) {sum(Li[ai!=0] * (ai[ai!=0]/T)^qvalue)^(1/(1-qvalue))/T}
             results[i, ] <- sapply(1:ncol(ai.multi), function(i) phylo.all.func(ai.multi[, i], T.multi[i])) # all other q values
             }
         }

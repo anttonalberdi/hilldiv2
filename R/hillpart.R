@@ -67,27 +67,36 @@ hillpart <- function(data,q=c(0,1,2),tree,dist,tau){
 
   hillpart.phylogenetic <- function(data,q=c(0,1,2),tree){
     N <- ncol(data)
-    data <- tss(data)
     Li <- tree$edge.length
     ltips <- sapply(tree$edge[, 2], function(node) geiger::tips(tree, node))
+
+    evenpool <- data %>%
+        rowwise() %>%
+        mutate(evenpool = if_else(any(c_across(everything()) != 0), 1, 0)) %>%
+        select(evenpool) %>%
+        pull() #generate a pool of equally abundant MAGs
+    names(evenpool) <- rownames(data)
+    ai.all <- unlist(lapply(ltips, function(TipVector) sum(tss(evenpool)[TipVector])))
+    T <- sum(Li * ai.all)
+
+    pool <- rowMeans(data)
     aij <- matrix(unlist(lapply(ltips, function(TipVector) colSums(data[TipVector,]))), ncol = N, byrow = TRUE)
-    ai <- rowSums(aij)
-    T <- sum(sweep(aij, 1, Li, "*"))
+    ai <- unlist(lapply(ltips, function(TipVector) sum(tss(pool)[TipVector])))
+
     L <- matrix(rep(Li, N), ncol = N)
     Li <- Li[ai != 0]
     ai <- ai[ai != 0]
     i <-  which(aij > 0)
-    alpha <- 1/N*exp(-sum(L[i] * aij[i]/T * log(aij[i]/T)))
     results <- matrix(0, nrow = length(q), ncol = 3)
     for (r in 1:length(q)){
       qvalue <- q[r]
       if(qvalue==1){
-        alpha <- 1/N*exp(-sum(L[i] * aij[i]/T * log(aij[i]/T)))
+        alpha <- exp(-sum(L[i] * aij[i]/T * log(aij[i]/T - log(N*T))))
         gamma <- exp(-sum(Li * (ai/T) * log(ai/T)))
         beta <- gamma / alpha
       }else{
-        alpha <- 1/N*sum(L[i] * (aij[i]/T)^qvalue)^(1/(1 - qvalue))
-        gamma <- (sum(Li * (ai/T)^qvalue)^(1/(1 - qvalue)))
+        alpha <- (1/(T*N)) * sum(L[i] * (aij[i]/T)^qvalue)^(1/(1 - qvalue))
+        gamma <- 1/T*(sum(Li * (ai/T)^qvalue)^(1/(1 - qvalue)))
         beta <- gamma / alpha
         }
         results[r, 1] <- alpha
