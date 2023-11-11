@@ -10,6 +10,7 @@
 
 #Distance matrix function
 list2dist <- function(distlist){
+    distlist <- distlist[order(distlist[,1],distlist[,2]),]
     distlist.name1 <- as.character(distlist[, 1])
     distlist.name2 <- as.character(distlist[, 2])
     distlist.value <- distlist[, 3]
