@@ -30,6 +30,7 @@ install.packages("devtools")
 library(devtools)
 install_github("anttonalberdi/hilldiv2")
 library(hilldiv)
+library(tidyverse)
 ```
 
 ## Usage
