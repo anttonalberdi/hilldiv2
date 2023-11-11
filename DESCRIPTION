@@ -39,6 +39,5 @@ Collate:
     'hillpair.R'
     'hillred.R'
     'hillsim.R'
-    'list2dist.R'
     'tss.R'
     'traits2dist.R'

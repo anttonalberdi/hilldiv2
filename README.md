@@ -190,7 +190,7 @@ hilldiss(data=counts,q=2,dist=dist)
 
 ### Hill numbers pairwise dissimilarities
 
-Using ***hillpair()***, dissimilarities are computed for every pairwise combination of samples, rather than the entire sample set (see ***hilldiss()***).
+Using ***hillpair()***, dissimilarities are computed for every pairwise combination of samples, rather than the entire sample set (see ***hilldiss()***). Note that unless a specific dissimilarity metric is selected, the default output is a list of distance objects.
 
 ```r
 hillpair(data=counts)
@@ -219,10 +219,7 @@ hill_pair_dis <- hillpair(data=counts[,-c(12,16,19)],q=1)
 #hill_pair_dis <- hillpair(data=counts[,-c(12,16,19)],q=1,dist=dist)
 
 # Generate NMDS ordination
-hill_pair_dis_nmds <- hill_pair_dis %>%
-				select(first,second,C) %>% #based on dissimilarity metric C
-				as.data.frame() %>%
-        list2dist() %>%
+hill_pair_dis_nmds <- hill_pair_dis$S %>% #select the distance object based on dissimilarity metric C
 				metaMDS(.,trymax = 500, k=2, verbosity=FALSE) %>%
 				scores() %>%
 				as_tibble(., rownames = "sample")

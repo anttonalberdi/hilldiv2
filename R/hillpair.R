@@ -9,7 +9,7 @@
 #' @param tree A phylogenetic tree of class 'phylo'. The tip labels must match the names of the vector values (if one sample) or matrix rows (if multiple samples). Use the function match_data() if the OTU names do not match.
 #' @param dist A distance matrix indicating the pairwise functional distances between samples.
 #' @param tau An optional maximum distance value between OTUs/ASVs/MAGs to be considered in the functional Hill numbers analyses.
-#' @param dim Dimensionality of the output object. 1: 1D table in which pairwise distances are listed in rows. 2: 2D table in which pairwise distances are shown in the upper triangle.
+#' @param out Type of output object. "dist" for a distance object of pairwise distances (default), "pair" for a table of pairwise distances in rows.
 #' @import tidyverse
 #' @seealso \code{\link{hilldiv}}, \code{\link{hilldiss}}, \code{\link{hillpart}}
 #' @examples
@@ -27,7 +27,7 @@
 #' @export
 
 
-hillpair <- function(data,q=c(0,1,2),metric=c("S","C","U","V"),tree,dist,tau,dim=1){
+hillpair <- function(data,q=c(0,1,2),metric=c("S","C","U","V"),tree,dist,tau,out="dist"){
 
   ###
   # Type of analysis detection
@@ -38,7 +38,6 @@ hillpair <- function(data,q=c(0,1,2),metric=c("S","C","U","V"),tree,dist,tau,dim
   if(!missing(tree) && missing(dist)){hilltype="phylogenetic"}
   if(missing(tree) && !missing(dist)){hilltype="functional"}
   if(!missing(tree) && !missing(dist)) stop("Phylogenetic and functional trait information cannot be added at once. Use either phylogenetic (tree) or functional (fun) information.")
-  if(! dim %in% c(1,2)) stop("The dimension value need to be either 1 or 2.")
 
   ###
   # Create pairwise tables
@@ -121,14 +120,17 @@ hillpair <- function(data,q=c(0,1,2),metric=c("S","C","U","V"),tree,dist,tau,dim
       mutate(second=unlist(lapply(pairs_names, function(x) x[2]))) %>%
       relocate(second, .after = 1)
 
-    #Convert 1D table into 2D distance matrix
-    if (dim == 2){
+    #Convert table into distance object
+    if (out == "dist"){
           create_distance_matrix <- function(column_name) {
             matrix_df <- pairs_dist_matrix %>%
               select(first, second, {{column_name}}) %>%
-              pivot_wider(names_from = second, values_from = {{column_name}}) %>%
+              pivot_wider(names_from = first, values_from = {{column_name}}) %>%
               as.data.frame() %>%
-              column_to_rownames(., var = "first")
+              column_to_rownames(., var = "second") %>%
+              add_row(., .before = 1)
+            rownames(matrix_df)[1] <- pairs_dist_matrix[1,1]
+            suppressWarnings(matrix_df <- as.dist(matrix_df))
             return(matrix_df)
           }
 

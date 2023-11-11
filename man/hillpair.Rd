@@ -11,7 +11,7 @@ hillpair(
   tree,
   dist,
   tau,
-  dim = 1
+  out = "dist"
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ hillpair(
 
 \item{tau}{An optional maximum distance value between OTUs/ASVs/MAGs to be considered in the functional Hill numbers analyses.}
 
-\item{dim}{Dimensionality of the output object. 1: 1D table in which pairwise distances are listed in rows. 2: 2D table in which pairwise distances are shown in the upper triangle.}
+\item{out}{Type of output object. "dist" for a distance object of pairwise distances (default), "pair" for a table of pairwise distances in rows.}
 }
 \description{
 Compute pairwise dissimilarity metrics based on neutral, phylogenetic and/or functional Hill numbers.
