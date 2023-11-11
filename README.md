@@ -29,7 +29,7 @@ hilldiv2 can be installed from this Github repository using devtools.
 install.packages("devtools")
 library(devtools)
 install_github("anttonalberdi/hilldiv2")
-library(hilldiv)
+library(hilldiv2)
 library(tidyverse)
 ```
 
