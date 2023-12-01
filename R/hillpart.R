@@ -67,6 +67,42 @@ hillpart <- function(data,q=c(0,1,2),tree,dist,tau){
 
   hillpart.phylogenetic <- function(data,q=c(0,1,2),tree){
     N <- ncol(data)
+    data <- tss(data)
+    Li <- tree$edge.length
+    ltips <- sapply(tree$edge[, 2], function(node) geiger::tips(tree, node))
+    aij <- matrix(unlist(lapply(ltips, function(TipVector) colSums(data[TipVector,]))), ncol = N, byrow = TRUE)
+    ai <- rowSums(aij)
+    T <- sum(sweep(aij, 1, Li, "*"))
+    L <- matrix(rep(Li, N), ncol = N)
+    Li <- Li[ai != 0]
+    ai <- ai[ai != 0]
+    i <-  which(aij > 0)
+    alpha <- 1/N*exp(-sum(L[i] * aij[i]/T * log(aij[i]/T)))
+    results <- matrix(0, nrow = length(q), ncol = 3)
+    for (r in 1:length(q)){
+      qvalue <- q[r]
+      if(qvalue==1){
+        alpha <- 1/N*exp(-sum(L[i] * aij[i]/T * log(aij[i]/T)))
+        gamma <- exp(-sum(Li * (ai/T) * log(ai/T)))
+        beta <- gamma / alpha
+      }else{
+        alpha <- 1/N*sum(L[i] * (aij[i]/T)^qvalue)^(1/(1 - qvalue))
+        gamma <- (sum(Li * (ai/T)^qvalue)^(1/(1 - qvalue)))
+        beta <- gamma / alpha
+        }
+        results[r, 1] <- alpha
+        results[r, 2] <- gamma
+        results[r, 3] <- beta
+      }
+    rownames(results) <- paste0("q",q)
+    colnames(results) <- c("alpha","gamma","beta")
+    return(results)
+
+  }
+
+  #Experimental function to unify T
+  hillpart.phylogenetic2 <- function(data,q=c(0,1,2),tree){
+    N <- ncol(data)
     Li <- tree$edge.length
     ltips <- sapply(tree$edge[, 2], function(node) geiger::tips(tree, node))
 
