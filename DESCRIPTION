@@ -26,10 +26,10 @@ Depends:
     R (>= 4.1.2)
 Suggests:
 Imports:
-    ape,
     cluster,
     stats,
-    tidyverse
+    tidyverse,
+    geiger
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 Collate:
