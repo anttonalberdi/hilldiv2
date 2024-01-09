@@ -19,7 +19,7 @@ Description: Tools for analysing OTU/ASV/MAG diversity based on Hill numbers.
   <DOI:10.1890/12-0960.1>; and reviewed in the framework of molecularly characterised
   biological systems in Alberdi & Gilbert (2019) <DOI:10.1111/1755-0998.13014>.
 License: GPL-3
-LazyData: true
+LazyData: false
 URL: https://github.com/anttonalberdi/hilldiv
 BugReports: https://github.com/anttonalberdi/hilldiv/issues
 Depends:
