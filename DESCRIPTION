@@ -1,6 +1,6 @@
 Package: hilldiv2
 Title: Integral Analysis of Diversity Based on Hill Numbers
-Version: 2.0.2
+Version: 2.0.3
 Author: Antton Alberdi [aut, cre]
 Maintainer: Antton Alberdi <antton.alberdi@bio.ku.dk>
 Description: Tools for analysing OTU/ASV/MAG diversity based on Hill numbers.
@@ -31,7 +31,7 @@ Imports:
     tidyverse,
     geiger
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Collate:
     'hilldiss.R'
     'hilldiv.R'
