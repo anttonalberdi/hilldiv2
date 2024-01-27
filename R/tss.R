@@ -17,9 +17,9 @@ tss <- function(abund){
   #If input data is a vector
   if(is.null(dim(abund)) == TRUE){ abund.norm <- ifelse(is.nan(abund/sum(abund)), 0, .) }
   #If input data is an OTU table
-  if(is.null(dim(abund)) == FALSE){ 
+  if(is.null(dim(abund)) == FALSE){
         abund.norm <- as.matrix(abund) %>% #convert to matrix to avoid sweep issues
-                      sweep(abund, 2, colSums(abund), FUN="/") %>% 
+                      sweep(., 2, colSums(.), FUN="/") %>%
                       replace(., is.nan(.), 0)} #convert NaNs derived from 0/0 to 0
   return(abund.norm)
 }
