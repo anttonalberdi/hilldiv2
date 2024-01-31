@@ -15,7 +15,7 @@
 
 tss <- function(abund){
   #If input data is a vector
-  if(is.null(dim(abund)) == TRUE){ abund.norm <- ifelse(is.nan(abund/sum(abund)), 0, .) }
+  if(is.null(dim(abund)) == TRUE){ abund.norm <- ifelse(is.nan(abund/sum(abund)), 0, abund/sum(abund)) }
   #If input data is an OTU table
   if(is.null(dim(abund)) == FALSE){
         abund.norm <- as.matrix(abund) %>% #convert to matrix to avoid sweep issues
