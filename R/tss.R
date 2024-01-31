@@ -4,6 +4,7 @@
 #' @keywords normalisation Hill
 #' @description Normalise a vector or count matrix to the range of 0-1.
 #' @param abund A vector or a matrix/data.frame indicating the relative abundances of one or multiple samples, respectively. If a matrix/data.frame is provided, columns must refer to samples and rows to OTUs.
+#' @import tidyverse
 #' @return Normalised vector or matrix.
 #' @seealso \code{\link{hill_div}}, \code{\link{index_div}}
 #' @examples
