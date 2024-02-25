@@ -70,7 +70,7 @@ hillpart <- function(data,q=c(0,1,2),tree,dist,tau){
     data <- tss(data)
     Li <- tree$edge.length
     ltips <- sapply(tree$edge[, 2], function(node) geiger::tips(tree, node))
-    aij <- matrix(unlist(lapply(ltips, function(TipVector) colSums(data[TipVector,]))), ncol = N, byrow = TRUE)
+    aij <- apply(matrix, 2, function(vector) unlist(lapply(ltips, function(TipVector) sum(tss(vector)[TipVector]))))
     ai <- rowSums(aij)
     T <- sum(sweep(aij, 1, Li, "*"))
     L <- matrix(rep(Li, N), ncol = N)
