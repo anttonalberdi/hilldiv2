@@ -40,6 +40,7 @@ hillpart <- function(data,q=c(0,1,2),tree,dist,tau){
   ###
 
   hillpart.neutral <- function(data,q=c(0,1,2),tree){
+    data <- data %>% filter(rowSums(select(., everything()) != 0) > 0) #Remove all-zero rows
     N <- ncol(data)
     pi <- tss(data)
 
