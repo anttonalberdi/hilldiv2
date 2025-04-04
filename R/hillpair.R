@@ -68,7 +68,7 @@ hillpair <- function(data,q=c(0,1,2),metric=c("S","C","U","V"),tree,dist,tau,out
   start.time <- Sys.time()
   if(hilltype == "neutral"){suppressMessages(pairs_dist <- lapply(pairs[1:10], hilldiss, q=q, metric=metric))}
   if(hilltype == "phylogenetic"){suppressMessages(pairs_dist <- lapply(pairs[1:10], hilldiss, q=q, metric=metric, tree=tree))}
-  if(hilltype == "functional"){suppressMessages(pairs_dist <- lapply(pairs[1:10], hilldiss, q=q, dist=dist, tau=tau))}
+  if(hilltype == "functional"){suppressMessages(pairs_dist <- lapply(pairs[1:10], hilldiss, q=q, metric=metric, dist=dist, tau=tau))}
   end.time <- Sys.time()
   time_estimate <- round((end.time - start.time)/10*pairs_length)
   options(warn=1)
@@ -80,7 +80,7 @@ hillpair <- function(data,q=c(0,1,2),metric=c("S","C","U","V"),tree,dist,tau,out
 
    if(hilltype == "neutral"){suppressMessages(pairs_dist <- lapply(pairs, hilldiss, q=q, metric=metric))}
    if(hilltype == "phylogenetic"){suppressMessages(pairs_dist <- lapply(pairs, hilldiss, q=q, metric=metric, tree=tree))}
-   if(hilltype == "functional"){suppressMessages(pairs_dist <- lapply(pairs, hilldiss, q=q, dist=dist, tau=tau))}
+   if(hilltype == "functional"){suppressMessages(pairs_dist <- lapply(pairs, hilldiss, q=q, metric=metric, dist=dist, tau=tau))}
 
   ###
   # Arrange output
